@@ -6,15 +6,16 @@
 <body>
 <?php
 $servername = "localhost"; 
-$username = "mysqlUser"; // le user anle mysql le lier amn samba
-$password = "liantsoa0803"; // le mot de passe anle user anle mysql
+$username = "kim"; // le user anle mysql le lier amn samba
+$password = "kimbohy"; // le mot de passe anle user anle mysql
+$database = "authentication"; // le nom de la base de donnée
 // se connecter avec mysql avec pdo
 try {
-    $conn = new PDO("mysql:host=$servername;dbname=samba", $username, $password); // db ovaina anle samba
+    $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password); // db ovaina anle samba
     // set the PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Connected successfully";
-    $sql = "SELECT username FROM users";
+    // echo "Connected successfully";
+    $sql = "SELECT login FROM users";
     $result = $conn->query($sql);
     //nombre de ligne dan $resultat
     if( $result->rowCount()>0){
@@ -26,9 +27,9 @@ try {
             echo '<h3> USER '.$i.' </h3> ';
             echo '<table border="1">';
             echo '<tr><th>Username</th></tr><br>';
-            echo '<tr><td>'.$row['username'].'</td></tr><br>';
+            echo '<tr><td>'.$row['login'].'</td></tr><br>';
             echo '<form action="deleteUser.php" method="post">';
-            echo '<input id="cache"type="hidden" name="username" value="'.$row['username'].'">';
+            echo '<input id="cache"type="hidden" name="username" value="'.$row['login'].'">';
             echo '<button type="submit">DELETE</button>';
             echo '</form>';            
             echo '</table>';
@@ -38,6 +39,9 @@ try {
         //ajouter un utilisateur dans la base de donnée
         echo '<h3>AJOUTER UN UTILISATEUR</h3>';
         echo '<button onclick="window.location.href=\'ajouterUser.html\'">Ajouter un utilisateur</button>';
+        // logout
+        echo '<br>';
+        echo '<button onclick="window.location.href=\'index.html\'">LOGOUT</button>';
     } else {
         //ajouter un utilisateur dans la base de donnée
         echo '<button onclick="window.location.href=\'ajouterUser.html\'">Ajouter un utilisateur</button>';

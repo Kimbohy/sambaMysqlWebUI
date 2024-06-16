@@ -1,18 +1,20 @@
 <?php
 $servername = "localhost";
-$username = "mysqlUser";  // hanamboaro base de donnée ana admin 
-$password = "liantsoa0803"; // mot de passe anle admin ana admnin
+$username = "kim";  // hanamboaro base de donnée ana admin 
+$password = "kimbohy"; // mot de passe anle admin ana admnin
+$database = "authentication"; // nom de la base de donnée
+$table = "admin"; // nom de la table
 // se connecter avec mysql avec pdo
 try {
-    $conn = new PDO("mysql:host=$servername;dbname=samba", $username, $password);// eto ovay anle bd admin
+    $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);// eto ovay anle bd admin
     // set the PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Connected successfully";
+    // echo "Connected successfully";
     $user=$_POST['username'];
     $passwd=$_POST['password'];
     $checkAsAdmin=$_POST['admin'];
     // detecter si ce login est dans le database samba
-    $sql = "SELECT * FROM users WHERE username='$user' AND password='$passwd'";
+    $sql = "SELECT * FROM $table WHERE username='$user' AND password='$passwd'";
     $result = $conn->query($sql);
     if ($result->rowCount() > 0) {
         echo "Login success";
