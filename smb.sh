@@ -6,6 +6,7 @@ mysql_password="kimbohy"
 mysql_db="authentication"
 sambaPath="/var/samba"
 
+
 # Interroger MySQL pour obtenir les informations sur les utilisateurs
 mysql_query=$(mysql -u"$mysql_user" -p"$mysql_password" "$mysql_db" -se "SELECT login FROM users" 2>/dev/null | tail -n +1)
 
@@ -36,15 +37,7 @@ for user in $mysql_query; do
         chown $user:$group $sambaPath/$user
 
         # modifier le fichier smb.conf pour ajouter le dossier de l'utilisateur
-        echo << EOF >> /etc/samba/smb.conf
-        [$user]
-        comment = $user
-        path = $sambaPath/$user
-        browseable = yes
-        valid users = $user
-        read only = no
-        guest ok = no
-EOF
+        echo "[$user] \n comment = $user \n path = $sambaPath/$user \n browseable = yes \n valid users = $user \n read only = no \n guest ok = no\n" >> /etc/samba/smb.conf
 
 
 
@@ -63,6 +56,8 @@ for smb_user in $smb_users; do
         userdel "$smb_user" 
         rm -rf $sambaPath/$smb_user
         echo "L'utilisateur $smb_user a été supprimé"
+        # suprime la ligne correspondant à l'utilisateur dans le fichier smb.conf
+        sed -i "/\[$smb_user\]/,/^$/d" /etc/samba/smb.conf
     fi
 done
 systemctl restart smb

@@ -17,11 +17,11 @@ try {
     // ajouter l'utilisateur
     $sql = "INSERT INTO users (login, password) VALUES ('$user', '$passwd')";
     $conn->exec($sql);
-    $result = system("(echo $pass)|sudo sh ../smb.sh");
-    echo $result;
+    $result = system("(echo $pass)|sudo sh ./smb.sh");
+    // echo $result;
+    echo "<script src='./front/move.js'></script>";
     // echo "User :'.$user.'added successfully";
     //revenir au listeUser.php
-    echo '<button onclick="window.location.href=\'listeUser.php\'">REVENIR AU LISTE</button>';
 } catch(PDOException $e) {
     echo "Failed: " . $e->getMessage();
 }

@@ -15,10 +15,11 @@ try {
     // supprimer l'utilisateur
     $sql = "DELETE FROM users WHERE login='$user'";
     $conn->exec($sql);
-    $result = system("(echo $pass)|sudo sh ../smb.sh");
-    echo $result;
+    $result = system("(echo $pass)|sudo sh ./smb.sh");
+    // echo $result;
+    echo "<script src='./front/move.js'></script>";
+
     // echo "User :'.$user.'deleted successfully <br>";
-    echo '<button onclick="window.location.href=\'listeUser.php\'">REVENIR AU LISTE</button>';
 } catch(PDOException $e) {
     echo "Connection failed: " . $e->getMessage();
 }

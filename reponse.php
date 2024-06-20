@@ -1,4 +1,6 @@
 <?php
+
+
 $servername = "localhost";
 $username = "kim";  // hanamboaro base de donnée ana admin 
 $password = "kimbohy"; // mot de passe anle admin ana admnin
@@ -17,12 +19,25 @@ try {
     $sql = "SELECT * FROM $table WHERE username='$user' AND password='$passwd'";
     $result = $conn->query($sql);
     if ($result->rowCount() > 0) {
-        echo "Login success";
-        echo '<h2>BIENVENUE '.$user.'</h2>';
-        echo '<button onclick="window.location.href=\'listeUser.php\'">REVENIR AU LISTE</button>';
+        $retour['userName'] = $user;
+        echo '<script src="./front/move.js"></script>';
+        // save the user name in to a json file
+        $fp = fopen('./data/user.json', 'w');
+        fwrite($fp, json_encode($retour));
+        fclose($fp);
+        // echo "Login success";
+        // echo '<h2>BIENVENUE '.$user.'</h2>';
+        // echo '<button onclick="window.location.href=\'listeUser.php\'">REVENIR AU LISTE</button>';
     } else {
         echo "Login failed";
     }
+
+
+
 } catch(PDOException $e) {
     echo "Connection failed: " . $e->getMessage();
 }
+?>
+
+
+
